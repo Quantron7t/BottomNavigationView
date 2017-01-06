@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void performStreamClick(){
-        View view = bottomNavigationView.findViewById(R.id.main_container);
+        View view = bottomNavigationView.findViewById(R.id.nav_button_two);
         view.performClick();
     }
 }
