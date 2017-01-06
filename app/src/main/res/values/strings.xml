@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BottomBar</string>
+    <string name="nav_button1">Radio</string>
+    <string name="nav_button2">Streams</string>
+    <string name="nav_button3">Info</string>
+
+
+</resources>
