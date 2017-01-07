@@ -19,7 +19,7 @@ public class RadioFragment extends Fragment implements Button.OnClickListener  {
 
     Button buttonman;
     View rootView;
-
+    PushStreamLink pushStreamLink;
     Activity a;
 
     @Override
@@ -27,8 +27,15 @@ public class RadioFragment extends Fragment implements Button.OnClickListener  {
         super.onAttach(context);
 
         if (context instanceof Activity) {
-            a = (Activity) context;
+            //a = (Activity) context;
         }
+        if (context instanceof PushStreamLink) {
+            pushStreamLink = (PushStreamLink) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+
     }
 
     public RadioFragment(){
@@ -51,6 +58,7 @@ public class RadioFragment extends Fragment implements Button.OnClickListener  {
         fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();*/
-        ((MainActivity)a).performStreamClick();
+        //((MainActivity)a).performStreamClick();
+        pushStreamLink.sendStreamLink("www.zz.com");
     }
 }
