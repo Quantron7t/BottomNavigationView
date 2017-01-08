@@ -14,24 +14,49 @@ import android.widget.TextView;
 
 public class StreamFragment extends Fragment {
 
-    String streamUrl;
+    String streamUrl="NoLinkFound";
     TextView textView;
-
     public StreamFragment(){};
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,final ViewGroup container,final Bundle savedInstanceState) {
+    public View onCreateView( LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_stream, container, false);
+        if(savedInstanceState==null)
+        {
 
+        }
+        else
+        {
+            streamUrl=savedInstanceState.getString("CurrentStreamLink");
+            textView =(TextView) getActivity().findViewById(R.id.streamLinkTextView);
+            textView.setText(streamUrl);
+        }
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        outState.putString("CurrentStreamLink",streamUrl);
+        super.onSaveInstanceState(outState);
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        if (streamUrl!=null) {
+//            streamUrl = savedInstanceState.getString("CurrentStreamLink");
+            textView = (TextView) getActivity().findViewById(R.id.streamLinkTextView);
+            textView.setText(streamUrl);
+        }
+        super.onActivityCreated(savedInstanceState);
     }
 
     public void getUrl(String data)
     {
         streamUrl=data;
-        textView=(TextView) getActivity().findViewById(R.id.streamLinkTextView);
         if (streamUrl!=null)
         {
+            textView=(TextView) getActivity().findViewById(R.id.streamLinkTextView);
             textView.setText(streamUrl);
         }
     }

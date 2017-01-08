@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements PushStreamLink{
     BottomNavigationView bottomNavigationView;
     private Fragment fragment;
     private FragmentManager fragmentManager;
+    View view;
     //private FragmentTransaction transaction;
 
     @Override
@@ -30,32 +31,38 @@ public class MainActivity extends AppCompatActivity implements PushStreamLink{
 
         fragmentManager = getSupportFragmentManager();
         fragment = new RadioFragment();
+        fragment.setRetainInstance(true);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.main_container, fragment).commit();
+        transaction.replace(R.id.main_container, fragment).commit();
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationBar);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 String tag = "";
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()) {
                     case R.id.nav_button_one:
                         fragment = new RadioFragment();
+                        fragment.setRetainInstance(true);
+
                         tag = "radio_fragment";
-                        transaction.replace(R.id.main_container, fragment, tag).commit();
                         break;
                     case R.id.nav_button_two:
                         fragment = new StreamFragment();
+                        fragment.setRetainInstance(true);
+
                         tag = "stream_fragment";
-                        transaction.replace(R.id.main_container, fragment, tag).commit();
                         break;
                     case R.id.nav_button_three:
                         fragment = new InfoFragment();
+                        fragment.setRetainInstance(true);
+
                         tag = "info_fragment";
-                        transaction.replace(R.id.main_container, fragment, tag).commit();
                         break;
                 }
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.main_container, fragment, tag).commit();
+
                 return true;
             }
         });
@@ -64,12 +71,15 @@ public class MainActivity extends AppCompatActivity implements PushStreamLink{
     @Override
     public void sendStreamLink(String link) {
         fragment =new StreamFragment();
+        fragment.setRetainInstance(true);
         fragmentManager=getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.main_container, fragment,"stream_fragment").commit();
+        transaction.replace(R.id.main_container, fragment,"stream_fragment").addToBackStack(null).commit();
         getSupportFragmentManager().executePendingTransactions();
         StreamFragment sf=(StreamFragment) getSupportFragmentManager().findFragmentByTag("stream_fragment");
         sf.getUrl(link);
+        view = bottomNavigationView.findViewById(R.id.nav_button_two);
+        view.performClick();
     }
 
    /* public void performStreamClick(){
